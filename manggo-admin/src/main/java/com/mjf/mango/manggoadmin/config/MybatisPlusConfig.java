@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @ProjectName: house
+ * @ProjectName: mango
  * @Package: com.yyt.tx.mjf.config
  * @ClassName: MybatisPlusConfig
  * @Author: majiafei
