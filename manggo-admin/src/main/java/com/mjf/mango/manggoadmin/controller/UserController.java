@@ -53,6 +53,7 @@ public class UserController {
     @GetMapping("/list")
     public ResponseResult list(@RequestParam(value = "size", defaultValue = "10") Integer size,
                                @RequestParam(value = "page", defaultValue = "1") Integer page) {
+
         return ResponseResult.ok(sysUserService.list(size, page));
     }
 
