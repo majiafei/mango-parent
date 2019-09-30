@@ -6,7 +6,6 @@
         <groupId>com.mjf.mango</groupId>
         <artifactId>mango-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mjf.mango</groupId>
     <artifactId>manggo-admin</artifactId>
