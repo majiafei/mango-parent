@@ -26,11 +26,25 @@ public class ResponseResult<T> {
         this.data = data;
     }
 
-    public ResponseResult ok(T data) {
+    public ResponseResult() {
+        this.code = 200;
+        this.data = null;
+    }
+
+    public ResponseResult(int code, String message) {
+        this.code = 200;
+        this.message = message;
+    }
+
+    public static <T> ResponseResult ok(T data) {
         return new ResponseResult(data);
     }
 
-    public ResponseResult error(int code, String message, T data) {
-        return new ResponseResult(code, message, data);
+    public static <T> ResponseResult ok() {
+        return new ResponseResult();
+    }
+
+    public static ResponseResult build(int code, String message) {
+        return new ResponseResult(code, message);
     }
 }
