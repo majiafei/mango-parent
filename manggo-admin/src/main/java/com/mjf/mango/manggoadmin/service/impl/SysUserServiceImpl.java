@@ -1,5 +1,7 @@
 package com.mjf.mango.manggoadmin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
@@ -43,5 +45,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // TODO
             throw new RuntimeException("添加用户失败");
         }
+    }
+
+    public IPage<SysUser> list(int size, int page) {
+        IPage<SysUser> iPage = new Page(page, size);
+        IPage result = sysUserMapper.selectMapsPage(iPage, null);
+        return result;
     }
 }

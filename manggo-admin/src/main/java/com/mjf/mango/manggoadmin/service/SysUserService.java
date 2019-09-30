@@ -1,5 +1,6 @@
 package com.mjf.mango.manggoadmin.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mjf.mango.manggoadmin.entity.SysUser;
 
@@ -15,5 +16,7 @@ import com.mjf.mango.manggoadmin.entity.SysUser;
 public interface SysUserService extends IService<SysUser> {
 
     void insertUser(SysUser sysUser);
+
+    IPage<SysUser> list(int size, int page);
 
 }
