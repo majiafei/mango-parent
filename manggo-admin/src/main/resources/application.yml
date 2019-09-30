@@ -13,3 +13,10 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.mjf.mango.manggoadmin.mapper: debug
+
+log:
+  path: mango-logs

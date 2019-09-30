@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 .idea/
+mango-logs/**
 
 ### STS ###
 .apt_generated
