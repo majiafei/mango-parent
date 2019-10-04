@@ -1,0 +1,30 @@
+server:
+  port: 9090
+spring:
+  banner:
+    location: classpath:banner.txt
+  druid:
+    url: jdbc:mysql://localhost:3306/mango?serverTimezone=UTC
+    driverClassName: com.mysql.jdbc.Driver
+    username: root
+    password: 1111
+  application:
+    name: manggo-admin
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        serviceName: ${spring.application.name}
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.mjf.mango.manggoadmin.mapper: debug
+
+log:
+  path: mango-logs
