@@ -20,6 +20,8 @@
         <mp.springboot.version>3.0.7.1</mp.springboot.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <commons-codec-version>1.12</commons-codec-version>
+        <jwt-version>0.9.0</jwt-version>
+        <commons-lang3>3.8.1</commons-lang3>
     </properties>
 
     <dependencyManagement>
@@ -80,6 +82,19 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec-version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
