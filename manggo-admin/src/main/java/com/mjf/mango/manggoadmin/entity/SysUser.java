@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
@@ -42,9 +44,11 @@ public class SysUser {
     private String userSalt;
 
     @TableField("user_email")
+    @Email
     private String userEmail;
 
     @TableField("user_mobile")
+    @Pattern(regexp = "1([38]\\d|5[0-35-9]|7[3678])\\d{8}" ,message = "手机号格式不正确")
     private String userMobile;
 
     @TableField("user_staus")
