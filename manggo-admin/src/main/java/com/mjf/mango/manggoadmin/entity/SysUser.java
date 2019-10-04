@@ -48,7 +48,7 @@ public class SysUser {
     private String userEmail;
 
     @TableField("user_mobile")
-    @Pattern(regexp = "1([38]\\d|5[0-35-9]|7[3678])\\d{8}" ,message = "手机号格式不正确")
+    @Pattern(regexp = "1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}" ,message = "手机号格式不正确")
     private String userMobile;
 
     @TableField("user_staus")
