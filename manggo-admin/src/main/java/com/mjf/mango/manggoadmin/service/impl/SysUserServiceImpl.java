@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.mango.common.utils.CodeUtils;
+import com.mjf.mango.manggoadmin.common.enums.UserStatusEnum;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
 import com.mjf.mango.manggoadmin.entity.SysUser;
 import com.mjf.mango.manggoadmin.mapper.SysUserMapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -46,6 +48,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 对密码进行加密(盐值+加密后的密码再次进行加密)
         String password = CodeUtils.md5Hex(sysUser.getUserPassword(), salt);
         sysUser.setUserPassword(password);
+        sysUser.setCreateTime(new Date());
+        sysUser.setCreateBy(sysUser.getUserName());
+        sysUser.setUserStaus(UserStatusEnum.NORMAL.getCode());
 
         boolean b = this.save(sysUser);
         if (!b) {
