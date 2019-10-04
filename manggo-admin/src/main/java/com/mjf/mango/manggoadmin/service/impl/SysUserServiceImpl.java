@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
+import com.mjf.mango.manggoadmin.common.utils.CodeUtils;
 import com.mjf.mango.manggoadmin.entity.SysUser;
 import com.mjf.mango.manggoadmin.mapper.SysUserMapper;
 import com.mjf.mango.manggoadmin.service.SysUserService;
@@ -39,11 +40,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new ServiceException("该用户名已经被注册过");
         }
 
-        sysUser.setUserSalt(UUID.randomUUID().toString().substring(0, 6));
+        // 盐值
+        String salt = UUID.randomUUID().toString().substring(0, 6);
+        sysUser.setUserSalt(salt);
+        // 对密码进行加密(盐值+加密后的密码再次进行加密)
+        String password = CodeUtils.md5Hex(sysUser.getUserPassword(), salt);
+        sysUser.setUserPassword(password);
+
         boolean b = this.save(sysUser);
         if (!b) {
-            // TODO
-            throw new RuntimeException("添加用户失败");
+            throw new ServiceException("添加用户失败");
         }
     }
 
