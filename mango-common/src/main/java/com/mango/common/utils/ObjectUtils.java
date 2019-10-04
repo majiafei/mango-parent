@@ -1,4 +1,4 @@
-package com.mjf.mango.manggoadmin.common.utils;
+package com.mango.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

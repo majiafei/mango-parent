@@ -1,4 +1,4 @@
-package com.mjf.mango.manggoadmin.common;
+package com.mango.common;
 
 import lombok.Data;
 

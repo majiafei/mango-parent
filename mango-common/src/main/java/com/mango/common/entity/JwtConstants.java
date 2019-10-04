@@ -1,4 +1,4 @@
-package com.mjf.mango.manggoadmin.common.entity;
+package com.mango.common.entity;
 
 /**
  * @ProjectName: yitao-parent

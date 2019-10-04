@@ -1,4 +1,4 @@
-package com.mjf.mango.manggoadmin.common.utils;
+package com.mango.common.utils;
 
 import java.io.File;
 import java.io.IOException;

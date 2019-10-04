@@ -1,7 +1,7 @@
-package com.mjf.mango.manggoadmin.common.utils;
+package com.mango.common.utils;
 
-import com.mjf.mango.manggoadmin.common.entity.JwtConstants;
-import com.mjf.mango.manggoadmin.common.entity.UserInfo;
+import com.mango.common.entity.JwtConstants;
+import com.mango.common.entity.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

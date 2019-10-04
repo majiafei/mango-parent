@@ -1,6 +1,6 @@
 package com.mjf.mango.manggoadmin.controller;
 
-import com.mjf.mango.manggoadmin.common.ResponseResult;
+import com.mango.common.ResponseResult;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
 import com.mjf.mango.manggoadmin.entity.SysUser;
 import com.mjf.mango.manggoadmin.service.SysUserService;

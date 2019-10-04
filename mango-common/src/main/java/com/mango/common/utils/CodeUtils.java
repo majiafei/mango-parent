@@ -1,7 +1,6 @@
-package com.mjf.mango.manggoadmin.common.utils;
+package com.mango.common.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @ClassName: CodeUtils
