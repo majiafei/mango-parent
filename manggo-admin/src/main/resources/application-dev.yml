@@ -18,7 +18,6 @@ spring:
         serviceName: ${spring.application.name}
         healthCheckPath: ${management.contextPath}/health
         healthCheckInterval: 15s
-        instance-id: consul-miya
 
 mybatis-plus:
   configuration:
@@ -31,3 +30,8 @@ logging:
 
 log:
   path: mango-logs
+
+mango:
+  jwt:
+    privatePath: D:/jwt/privateKey.rsa
+    publicPath: D:/jwt/publicKey.rsa

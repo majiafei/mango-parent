@@ -26,3 +26,8 @@ logging:
 
 log:
   path: /usr/local/mango/mango-logs
+
+mango:
+  jwt:
+    privatePath: /usr/local/jwt/privateKey.rsa
+    publicPath: /usr/local/jwt/publicKey.rsa
