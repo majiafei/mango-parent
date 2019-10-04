@@ -49,8 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         boolean b = this.save(sysUser);
         if (!b) {
-            // TODO
-            throw new RuntimeException("添加用户失败");
+            throw new ServiceException("添加用户失败");
         }
     }
 
