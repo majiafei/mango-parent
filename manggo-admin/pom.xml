@@ -65,22 +65,25 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <mainClass>com.mjf.mango.manggoadmin.ManggoAdminApplication</mainClass>
-                            </manifest>
-                        </archive>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <finalName>mango-admin</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.mjf.mango.manggoadmin.ManggoAdminApplication</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
+
 
 </project>
