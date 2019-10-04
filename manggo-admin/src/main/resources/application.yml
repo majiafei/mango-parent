@@ -10,12 +10,12 @@ spring:
     password: 1111
   application:
     name: manggo-admin
-  cloud:
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        serviceName: manggo-admin
+#  cloud:
+#    consul:
+#      host: localhost
+#      port: 8500
+#      discovery:
+#        serviceName: manggo-admin
 
 mybatis-plus:
   configuration:
@@ -27,4 +27,4 @@ logging:
     com.mjf.mango.manggoadmin.mapper: debug
 
 log:
-  path: /usr/local/mango/mango-logs
+  path: mango-logs
