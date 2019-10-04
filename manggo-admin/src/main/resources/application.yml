@@ -4,10 +4,18 @@ spring:
   banner:
     location: classpath:banner.txt
   druid:
-    url: jdbc:mysql://192.168.91.133:3306/mango?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/mango?serverTimezone=UTC
     driverClassName: com.mysql.jdbc.Driver
     username: root
     password: 1111
+  application:
+    name: manggo-admin
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        serviceName: manggo-admin
 
 mybatis-plus:
   configuration:
@@ -19,4 +27,4 @@ logging:
     com.mjf.mango.manggoadmin.mapper: debug
 
 log:
-  path: mango-logs
+  path: /usr/local/mango/mango-logs
