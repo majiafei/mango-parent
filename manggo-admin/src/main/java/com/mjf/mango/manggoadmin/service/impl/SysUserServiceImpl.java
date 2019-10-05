@@ -1,21 +1,25 @@
 package com.mjf.mango.manggoadmin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mango.common.utils.CodeUtils;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
+import com.mjf.mango.manggoadmin.entity.SysMenu;
 import com.mjf.mango.manggoadmin.entity.SysUser;
+import com.mjf.mango.manggoadmin.mapper.SysMenuMapper;
 import com.mjf.mango.manggoadmin.mapper.SysUserMapper;
 import com.mjf.mango.manggoadmin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ProjectName: mango
@@ -30,6 +34,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired(required = false)
     private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private SysMenuMapper sysMenuMapper;
 
     public void insertUser(SysUser sysUser) {
         // 用户名唯一
@@ -57,5 +64,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         IPage<SysUser> iPage = new Page(page, size);
         IPage result = sysUserMapper.selectMapsPage(iPage, null);
         return result;
+    }
+
+    public Set<String> findPermissions(String userName) {
+        // 查找用户
+        SysUser sysUser = sysUserMapper.findByUserName(userName);
+        if (sysUser == null) {
+            throw new ServiceException("该用户不存在");
+        }
+
+        List<Long> roleIds = sysUserMapper.findRoleIds(sysUser.getUserId());
+        List<Long> menuIds = sysUserMapper.findMenuIds(roleIds);
+        Set<Long> menuIdSet = new HashSet<Long>(menuIds);
+        List<SysMenu> sysMenuList = sysMenuMapper.selectBatchIds(Lists.newArrayList(menuIdSet));
+        List<String> permList = sysMenuList.stream().map(sysMenu -> sysMenu.getPerms()).collect(Collectors.toList());
+
+        return Sets.newHashSet(permList);
+    }
+
+    @Override
+    public SysUser findByUserName(String userName) {
+        return sysUserMapper.findByUserName(userName);
     }
 }
