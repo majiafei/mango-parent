@@ -1,8 +1,10 @@
 package com.mjf.mango.manggoadmin.jwt;
 
+import com.mango.common.utils.CodeUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +32,12 @@ public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
             }
         }
 
-        String presentedPassword = authentication.getCredentials().toString();
+/*        String presentedPassword = authentication.getCredentials().toString();
+        String salt = ((JwtUserDetails) userDetails).getSalt();
+        if (!CodeUtils.md5Hex(presentedPassword, salt).equals(userDetails.getPassword())) {
+            logger.debug("authentication failed: password not match");
+            throw new BadCredentialsException("bad credentials");
+        }*/
 
     }
 }

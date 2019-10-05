@@ -14,6 +14,7 @@ import com.mjf.mango.manggoadmin.entity.SysUser;
 import com.mjf.mango.manggoadmin.mapper.SysMenuMapper;
 import com.mjf.mango.manggoadmin.mapper.SysUserMapper;
 import com.mjf.mango.manggoadmin.service.SysUserService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -51,7 +52,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String salt = UUID.randomUUID().toString().substring(0, 6);
         sysUser.setUserSalt(salt);
         // 对密码进行加密(盐值+加密后的密码再次进行加密)
-        String password = CodeUtils.md5Hex(sysUser.getUserPassword(), salt);
+        String password = DigestUtils.md5Hex(salt + sysUser.getUserPassword());
         sysUser.setUserPassword(password);
 
         boolean b = this.save(sysUser);
@@ -74,6 +75,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         List<Long> roleIds = sysUserMapper.findRoleIds(sysUser.getUserId());
+        if (CollectionUtils.isEmpty(roleIds)) {
+            throw new ServiceException("请给用户配角色");
+        }
         List<Long> menuIds = sysUserMapper.findMenuIds(roleIds);
         Set<Long> menuIdSet = new HashSet<Long>(menuIds);
         List<SysMenu> sysMenuList = sysMenuMapper.selectBatchIds(Lists.newArrayList(menuIdSet));

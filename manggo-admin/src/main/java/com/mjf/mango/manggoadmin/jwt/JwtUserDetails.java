@@ -42,19 +42,19 @@ public class JwtUserDetails implements UserDetails {
     }
 
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public String getSalt() {

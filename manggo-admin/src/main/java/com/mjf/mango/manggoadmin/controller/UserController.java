@@ -2,11 +2,16 @@ package com.mjf.mango.manggoadmin.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.mango.common.ResponseResult;
+import com.mango.common.utils.CodeUtils;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
 import com.mjf.mango.manggoadmin.entity.SysUser;
+import com.mjf.mango.manggoadmin.security.JwtAuthenticatioToken;
+import com.mjf.mango.manggoadmin.security.SecurityUtils;
 import com.mjf.mango.manggoadmin.service.SysUserService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -36,6 +41,9 @@ public class UserController {
 
     @Autowired
     private DefaultKaptcha defaultKaptcha;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     /**
      * 用户注册
@@ -84,6 +92,37 @@ public class UserController {
             e.printStackTrace();
             log.error(e.getMessage(), e);
             throw new ServiceException("生成验证码失败");
+        }
+    }
+
+    /**
+     * 用户登录
+     * @param userName
+     * @param password
+     * @param code 验证码
+     * @return
+     */
+    @PostMapping("/login")
+    public ResponseResult login(String userName, String password, String code, HttpServletRequest request) {
+        try {
+            // 验证码
+            // 用户名
+            SysUser sysUser = sysUserService.findByUserName(userName);
+            if (sysUser == null) {
+                return ResponseResult.build(500, "该用户不存在");
+            }
+            // 密码
+            password = DigestUtils.md5Hex(sysUser.getUserSalt() + password);
+            if (!password.equals(sysUser.getUserPassword())) {
+                return ResponseResult.build(500, "用户名或者密码不正确");
+            }
+
+            JwtAuthenticatioToken jwtAuthenticatioToken = SecurityUtils.login(request, userName, password, authenticationManager);
+            return ResponseResult.ok(jwtAuthenticatioToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage(), e);
+            return ResponseResult.build(500, e.getMessage());
         }
     }
 
