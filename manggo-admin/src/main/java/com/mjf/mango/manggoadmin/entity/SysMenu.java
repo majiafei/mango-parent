@@ -22,13 +22,13 @@ import java.util.List;
 public class SysMenu {
 
     @TableId(type = IdType.AUTO, value = "menu_id")
-    private Long menu_id;
+    private Long id;
 
     @TableField("parent_id")
     private Long parentId;
 
     @TableField("menu_name")
-    private String menuName;
+    private String name;
 
     @TableField("menu_url")
     private String url;

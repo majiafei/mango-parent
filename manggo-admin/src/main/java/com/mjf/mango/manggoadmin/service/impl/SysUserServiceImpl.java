@@ -63,11 +63,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     public IPage<SysUser> list(int size, int page) {
         IPage<SysUser> iPage = new Page(page, size);
-        IPage result = sysUserMapper.selectMapsPage(iPage, null);
+        IPage<SysUser> result = sysUserMapper.selectPage(iPage, null);
         return result;
     }
 
     public Set<String> findPermissions(String userName) {
+        List<SysMenu> sysMenuList = findMenuList(userName);
+        List<String> permList = sysMenuList.stream().map(sysMenu -> sysMenu.getPerms()).collect(Collectors.toList());
+
+        return Sets.newHashSet(permList);
+    }
+
+    @Override
+    public SysUser findByUserName(String userName) {
+        return sysUserMapper.findByUserName(userName);
+    }
+
+    @Override
+    public List<SysMenu> findMenuList(String userName) {
         // 查找用户
         SysUser sysUser = sysUserMapper.findByUserName(userName);
         if (sysUser == null) {
@@ -81,13 +94,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<Long> menuIds = sysUserMapper.findMenuIds(roleIds);
         Set<Long> menuIdSet = new HashSet<Long>(menuIds);
         List<SysMenu> sysMenuList = sysMenuMapper.selectBatchIds(Lists.newArrayList(menuIdSet));
-        List<String> permList = sysMenuList.stream().map(sysMenu -> sysMenu.getPerms()).collect(Collectors.toList());
 
-        return Sets.newHashSet(permList);
-    }
-
-    @Override
-    public SysUser findByUserName(String userName) {
-        return sysUserMapper.findByUserName(userName);
+        return sysMenuList;
     }
 }

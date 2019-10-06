@@ -3,14 +3,18 @@ package com.mjf.mango.manggoadmin.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.mango.common.ResponseResult;
 import com.mango.common.utils.CodeUtils;
+import com.mjf.mango.manggoadmin.UserDTO;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
 import com.mjf.mango.manggoadmin.entity.SysUser;
+import com.mjf.mango.manggoadmin.jwt.JwtTokenUtils;
 import com.mjf.mango.manggoadmin.security.JwtAuthenticatioToken;
 import com.mjf.mango.manggoadmin.security.SecurityUtils;
 import com.mjf.mango.manggoadmin.service.SysUserService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +26,7 @@ import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * @ProjectName: mango
@@ -70,8 +75,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/list")
-    public ResponseResult list(@RequestParam(value = "size", defaultValue = "10") Integer size,
-                               @RequestParam(value = "page", defaultValue = "1") Integer page) {
+    public ResponseResult list(@RequestParam(value = "pageSize", defaultValue = "10") Integer size,
+                               @RequestParam(value = "pageNum", defaultValue = "1") Integer page) {
         return ResponseResult.ok(sysUserService.list(size, page));
     }
 
@@ -95,35 +100,52 @@ public class UserController {
         }
     }
 
+
     /**
-     * 用户登录
-     * @param userName
-     * @param password
-     * @param code 验证码
+     *
+     * @param userDTO
+     * @param request
      * @return
      */
     @PostMapping("/login")
-    public ResponseResult login(String userName, String password, String code, HttpServletRequest request) {
+    public ResponseResult login(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         try {
             // 验证码
             // 用户名
-            SysUser sysUser = sysUserService.findByUserName(userName);
+            SysUser sysUser = sysUserService.findByUserName(userDTO.getUserName());
             if (sysUser == null) {
                 return ResponseResult.build(500, "该用户不存在");
             }
             // 密码
-            password = DigestUtils.md5Hex(sysUser.getUserSalt() + password);
+            String password = DigestUtils.md5Hex(sysUser.getUserSalt() + userDTO.getPassword());
             if (!password.equals(sysUser.getUserPassword())) {
                 return ResponseResult.build(500, "用户名或者密码不正确");
             }
 
-            JwtAuthenticatioToken jwtAuthenticatioToken = SecurityUtils.login(request, userName, password, authenticationManager);
+            JwtAuthenticatioToken jwtAuthenticatioToken = SecurityUtils.login(request, userDTO.getUserName(), password, authenticationManager);
             return ResponseResult.ok(jwtAuthenticatioToken);
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage(), e);
             return ResponseResult.build(500, e.getMessage());
         }
+    }
+
+    @GetMapping("/findPermissions")
+    public ResponseResult findPermissions(HttpServletRequest request) {
+        String token = JwtTokenUtils.getToken(request);
+        if (StringUtils.isBlank(token)) {
+            return ResponseResult.build(HttpStatus.UNAUTHORIZED.value(), "请先登录");
+        }
+
+        String userName = JwtTokenUtils.getUsernameFromToken(token);
+        if (StringUtils.isBlank(userName)) {
+            return ResponseResult.build(HttpStatus.UNAUTHORIZED.value(), "请先登录");
+        }
+
+        Set<String> permissions = sysUserService.findPermissions(userName);
+
+        return ResponseResult.ok(permissions);
     }
 
 }

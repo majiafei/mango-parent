@@ -2,6 +2,7 @@ package com.mjf.mango.manggoadmin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mjf.mango.manggoadmin.entity.SysMenu;
 import com.mjf.mango.manggoadmin.entity.SysUser;
 
 import java.util.List;
@@ -30,5 +31,7 @@ public interface SysUserService extends IService<SysUser> {
     Set<String> findPermissions(String userName);
 
     SysUser findByUserName(String userName);
+
+    List<SysMenu> findMenuList(String userName);
 
 }
