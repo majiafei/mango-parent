@@ -28,6 +28,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private SysMenuMapper sysMenuMapper;
+
     @Override
     public List<SysMenu> findMenus(String userName) {
         List<SysMenu> menuList = sysUserService.findMenuList(userName);
@@ -42,18 +45,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         }
 
-        newMenuList.forEach(sysMenu -> {
-            Long parentId = sysMenu.getParentId();
-            SysMenu parentMenu = sysMenuMap.get(parentId);
-            if (parentMenu != null) {
-                List<SysMenu> children = parentMenu.getChildren();
-                if (children == null) {
-                    children = Lists.newArrayList();
-                }
-                children.add(sysMenu);
-                parentMenu.setChildren(children);
-            }
-        });
+        handelMenu(newMenuList, sysMenuMap);
 
         menuList.clear();
         sysMenuMap.forEach((k, v) -> {
@@ -63,5 +55,44 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         });
 
         return menuList;
+    }
+
+    @Override
+    public List<SysMenu> findMenuTree() {
+        List<SysMenu> sysMenuList = sysMenuMapper.selectList(null);
+
+        Map<Long, SysMenu> menuMap = sysMenuList.stream().collect(Collectors.toMap(SysMenu::getId, sysMenu -> sysMenu));
+
+        handelMenu(sysMenuList, menuMap);
+
+        sysMenuList.clear();
+        menuMap.forEach((parentId, sysMenu) -> {
+            if (sysMenu.getParentId() == 0) {
+                sysMenuList.add(sysMenu);
+            }
+        });
+
+        return sysMenuList;
+    }
+
+    /**
+     * 将菜单处理成上下级结构
+     * @param sysMenuList
+     * @param menuMap
+     */
+    private void handelMenu(List<SysMenu> sysMenuList, Map<Long, SysMenu> menuMap) {
+        sysMenuList.forEach(sysMenu -> {
+            if (sysMenu.getParentId() != 0) {
+                Long parentId = sysMenu.getParentId();
+                SysMenu parentMenu = menuMap.get(parentId);
+
+                List<SysMenu> children = parentMenu.getChildren();
+                if (children == null) {
+                    children = Lists.newArrayList();
+                }
+                children.add(sysMenu);
+                parentMenu.setChildren(children);
+            }
+        });
     }
 }

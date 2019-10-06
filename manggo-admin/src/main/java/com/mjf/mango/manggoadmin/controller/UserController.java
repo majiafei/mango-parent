@@ -2,6 +2,7 @@ package com.mjf.mango.manggoadmin.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.mango.common.ResponseResult;
+import com.mango.common.entity.PageRequest;
 import com.mango.common.utils.CodeUtils;
 import com.mjf.mango.manggoadmin.UserDTO;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
@@ -74,10 +75,9 @@ public class UserController {
      * @param page 当前页码
      * @return
      */
-    @GetMapping("/list")
-    public ResponseResult list(@RequestParam(value = "pageSize", defaultValue = "10") Integer size,
-                               @RequestParam(value = "pageNum", defaultValue = "1") Integer page) {
-        return ResponseResult.ok(sysUserService.list(size, page));
+    @PostMapping("/list")
+    public ResponseResult list(@RequestBody PageRequest pageRequest) {
+        return ResponseResult.ok(sysUserService.list(pageRequest.getPageSize(), pageRequest.getPageNum()));
     }
 
     @GetMapping("/getCode")

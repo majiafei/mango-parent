@@ -42,4 +42,9 @@ public class SysMenuController {
         return ResponseResult.ok(sysMenutService.findMenus(userName));
     }
 
+    @GetMapping("/findMenuTree")
+    public ResponseResult findMenuTree() {
+        return ResponseResult.ok(sysMenutService.findMenuTree());
+    }
+
 }
