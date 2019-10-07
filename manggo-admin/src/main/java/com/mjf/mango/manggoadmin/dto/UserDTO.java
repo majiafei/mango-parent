@@ -1,4 +1,4 @@
-package com.mjf.mango.manggoadmin;
+package com.mjf.mango.manggoadmin.dto;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class UserDTO {
-
+//    D:\Python27\
     private String userName;
 
     private String password;
