@@ -3,7 +3,6 @@ package com.mjf.mango.manggoadmin.controller;
 import com.mango.common.ResponseResult;
 import com.mjf.mango.manggoadmin.entity.SysDict;
 import com.mjf.mango.manggoadmin.service.SysDictService;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
