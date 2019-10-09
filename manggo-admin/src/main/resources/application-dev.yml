@@ -10,15 +10,15 @@ spring:
     password: 1111
   application:
     name: manggo-admin
-  cloud:
-    consul:
-      host: 127.0.0.1
-      port: 8500
-      discovery:
-        serviceName: ${spring.application.name}
-        healthCheckPath: ${management.contextPath}/health
-        healthCheckInterval: 15s
-        instance-id: consul-miya
+#  cloud:
+#    consul:
+#      host: 127.0.0.1
+#      port: 8500
+#      discovery:
+#        serviceName: ${spring.application.name}
+#        healthCheckPath: ${management.contextPath}/health
+#        healthCheckInterval: 15s
+#        instance-id: consul-miya
 
 mybatis-plus:
   configuration:
@@ -28,6 +28,11 @@ mybatis-plus:
 logging:
   level:
     com.mjf.mango.manggoadmin.mapper: debug
+
+mango:
+  cookie:
+    expire: 1800
+    tokenName: MANGOTOKEN
 
 log:
   path: mango-logs
