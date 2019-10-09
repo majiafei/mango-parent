@@ -8,6 +8,7 @@ import com.mjf.mango.manggoadmin.mapper.SysDeptMapper;
 import com.mjf.mango.manggoadmin.service.SysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -54,11 +55,24 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         sysDeptList.clear();
         deptMap.forEach((deptId, sysDept) -> {
             if (sysDept.getParentId() == null) {
+                sysDept.setLevel(0); //
                 sysDept.setParentName("");
+                setLevel(sysDept.getChildren(), 1);
                 sysDeptList.add(sysDept);
             }
         });
 
         return sysDeptList;
+    }
+
+    private void setLevel(List<SysDept> children, int level) {
+        if (CollectionUtils.isEmpty(children)) {
+            return;
+        }
+
+        children.forEach(sysDept -> {
+            sysDept.setLevel(level);
+            setLevel(sysDept.getChildren(), level + 1);
+        });
     }
 }

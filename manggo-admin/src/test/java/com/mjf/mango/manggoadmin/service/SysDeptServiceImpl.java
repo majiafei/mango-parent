@@ -1,5 +1,6 @@
 package com.mjf.mango.manggoadmin.service;
 
+import com.mango.common.utils.JsonUtils;
 import com.mjf.mango.manggoadmin.ManggoAdminApplicationTests;
 import com.mjf.mango.manggoadmin.entity.SysDept;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class SysDeptServiceImpl extends ManggoAdminApplicationTests {
     @Test
     public void findTree() {
         List<SysDept> tree = sysDeptService.findTree();
-        System.out.println(tree.size());
+        System.out.println(JsonUtils.toString(tree));
     }
 
 }

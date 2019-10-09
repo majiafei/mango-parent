@@ -46,12 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/durid/**").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/user/getCode").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/user/register").permitAll()
-                .antMatchers("/user/getCode").permitAll()
                 .anyRequest().authenticated();
 
         // 退出登录处理器

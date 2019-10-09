@@ -1,7 +1,7 @@
 package com.mjf.mango.manggoadmin.controller;
 
 import com.mango.common.ResponseResult;
-import com.mango.common.entity.PageRequest;
+import com.mjf.mango.manggoadmin.dto.SysRoleDTO;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class SysRoleController {
 
     @PostMapping("/findPage")
-    public ResponseResult findPage(@RequestBody PageRequest pageRequest) {
+    public ResponseResult findPage(@RequestBody SysRoleDTO sysRoleDTO) {
         return ResponseResult.ok(null);
     }
 
