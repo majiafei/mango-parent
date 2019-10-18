@@ -3,6 +3,7 @@ package com.mjf.mango.manggoadmin.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.mango.common.ResponseResult;
 import com.mango.common.entity.PageRequest;
+import com.mjf.mango.manggoadmin.aspect.LoginLog;
 import com.mjf.mango.manggoadmin.dto.UserDTO;
 import com.mjf.mango.manggoadmin.common.exception.ServiceException;
 import com.mjf.mango.manggoadmin.entity.SysUser;
@@ -106,6 +107,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @LoginLog("用户登录")
     @PostMapping("/login")
     public ResponseResult login(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         try {
