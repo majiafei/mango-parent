@@ -18,4 +18,9 @@ import java.util.Set;
  * @Date: 2019/9/29 21:52
  */
 public interface SysMenuMapper extends CommonMapper<SysMenu> {
+
+    void deleteMenuIdsByRoleId(@Param("roleId") Long roleId);
+
+    void insertRoleMenus();
+
 }

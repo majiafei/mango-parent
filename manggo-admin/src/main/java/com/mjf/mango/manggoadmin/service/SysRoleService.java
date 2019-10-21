@@ -22,4 +22,9 @@ import java.util.Set;
 
 public interface SysRoleService extends IService<SysRole> {
     IPage<SysRole> findPage(SysRoleDTO sysRoleDTO);
+
+    // 获取某个角色的菜单
+    List<SysMenu> findRoleMenus(Long roleId);
+
+    void saveRoleMenus(SysRoleDTO sysRoleDTO);
 }
