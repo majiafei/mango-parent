@@ -20,6 +20,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +83,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/list")
+    @PreAuthorize("hasAnyAuthority('sys:user:view')") // 直接调用hasAnyAuthority方法，获取权限信息，判断，是否存在sys:user:view这个权限，若不存在就抛出异常
     public ResponseResult list(@RequestBody PageRequest pageRequest) {
+        System.out.println(SecurityUtils.getUsername());
         return ResponseResult.ok(sysUserService.list(pageRequest.getPageSize(), pageRequest.getPageNum()));
     }
 

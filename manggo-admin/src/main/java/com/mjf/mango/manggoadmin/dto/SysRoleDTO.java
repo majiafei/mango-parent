@@ -3,6 +3,8 @@ package com.mjf.mango.manggoadmin.dto;
 import com.mango.common.entity.PageRequest;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @ClassName: SysRoleDTO
  * @Auther: admin
@@ -12,5 +14,8 @@ import lombok.Data;
 @Data
 public class SysRoleDTO extends PageRequest {
 
+    private Long roleId;
+
+    private List<Long> menuIds;
 
 }
