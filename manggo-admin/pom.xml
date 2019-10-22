@@ -96,6 +96,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <!--pdf-->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
