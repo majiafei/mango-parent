@@ -3,6 +3,7 @@ package com.mjf.mango.manggoadmin.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.*;
 import com.mango.common.ResponseResult;
 import com.mango.common.entity.PageRequest;
@@ -18,6 +19,7 @@ import com.mjf.mango.manggoadmin.service.SysUserService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -159,7 +161,7 @@ public class UserController {
     }
 
     @GetMapping("/printPdf")
-    public void printPdf(HttpServletResponse response) {
+    public void printPdf(HttpServletResponse response, HttpServletRequest request) {
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, response.getOutputStream());
@@ -198,8 +200,15 @@ public class UserController {
             cell.setHorizontalAlignment(1);
             // 将单元格加入表格
             table.addCell(cell);
+
+            BufferedImage image = defaultKaptcha.createImage("hello");
+            ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpg", jpegOutputStream);
+            Image image1 = new Jpeg(jpegOutputStream.toByteArray());
+
             // 文档中加入表格
             document.add(table);
+            document.add(image1);
             document.close();
         } catch (DocumentException e) {
             e.printStackTrace();
