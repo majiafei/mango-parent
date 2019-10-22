@@ -43,6 +43,12 @@
             <artifactId>joda-time</artifactId>
         </dependency>
 
+        <!--pdf-->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
