@@ -44,7 +44,7 @@ public class JwtTokenUtils implements Serializable {
     /**
      * 有效期12小时
      */
-    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 30 * 60 * 1000;
 
     /**
      * 生成令牌
@@ -97,7 +97,7 @@ public class JwtTokenUtils implements Serializable {
         String token = JwtTokenUtils.getToken(request);
         if(token != null) {
             // 请求令牌不能为空
-            if(SecurityUtils.getAuthentication() == null) {
+//            if(SecurityUtils.getAuthentication() == null) {
                 // 上下文中Authentication为空
                 Claims claims = getClaimsFromToken(token);
                 if(claims == null) {
@@ -118,12 +118,7 @@ public class JwtTokenUtils implements Serializable {
                     }
                 }
                 authentication = new JwtAuthenticatioToken(username, null, authorities, token);
-            } else {
-                if(validateToken(token, SecurityUtils.getUsername())) {
-                    // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
-                    authentication = SecurityUtils.getAuthentication();
-                }
-            }
+//            }
         }
         return authentication;
     }

@@ -2,7 +2,9 @@ package com.mjf.mango.manggoadmin.controller;
 
 import com.mango.common.ResponseResult;
 import com.mjf.mango.manggoadmin.dto.SysRoleDTO;
+import com.mjf.mango.manggoadmin.service.SysRoleMenuService;
 import com.mjf.mango.manggoadmin.service.SysRoleService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role")
+@Log4j2
 public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
 
     @PostMapping("/findPage")
     public ResponseResult findPage(@RequestBody SysRoleDTO sysRoleDTO) {
@@ -32,8 +38,15 @@ public class SysRoleController {
     }
 
     @PostMapping("saveRoleMenus")
-    public ResponseResult saveRoleMenus(@RequestBody List<SysRoleDTO> sysRoleDTO) {
-        return ResponseResult.ok();
+    public ResponseResult saveRoleMenus(@RequestBody SysRoleDTO sysRoleDTO) {
+        try {
+            sysRoleMenuService.saveRoleMenus(sysRoleDTO);
+
+            return ResponseResult.ok();
+        } catch (Exception e) {
+            log.error("授权失败", e);
+            return ResponseResult.build(500, "授权失败");
+        }
     }
 
 }

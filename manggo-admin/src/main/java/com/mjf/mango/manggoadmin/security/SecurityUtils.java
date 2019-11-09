@@ -1,12 +1,14 @@
 package com.mjf.mango.manggoadmin.security;
 
 import com.mjf.mango.manggoadmin.jwt.JwtTokenUtils;
+import com.mjf.mango.manggoadmin.jwt.JwtUserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
+import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -55,15 +57,19 @@ public class SecurityUtils {
      * @return
      */
     public static String getUsername() {
-        String username = null;
         Authentication authentication = getAuthentication();
         if(authentication != null) {
             Object principal = authentication.getPrincipal();
-            if(principal != null && principal instanceof UserDetails) {
-                username = ((UserDetails) principal).getUsername();
+
+            if (principal instanceof  JwtUserDetails) {
+                JwtUserDetails jwtUserDetails = (JwtUserDetails) principal;
+                return jwtUserDetails.getUsername();
+            } else if (principal instanceof String) {
+                return (String) principal;
             }
+
         }
-        return username;
+        return null;
     }
 
     /**

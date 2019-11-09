@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @ClassName: SysRoleServiceImplTest
  * @Auther: admin
@@ -27,6 +29,12 @@ public class SysRoleServiceImplTest extends ManggoAdminApplicationTests {
 
         IPage<SysRole> page = sysRoleService.findPage(sysRoleDTO);
         Assert.assertEquals(1, page.getPages());
+    }
+
+    @Test
+    public void findRoleMenus() {
+        //List<SysRole> roleMenus = sysRoleService.findRoleMenus(1L);
+        //System.out.println(roleMenus.size());
     }
 
 }

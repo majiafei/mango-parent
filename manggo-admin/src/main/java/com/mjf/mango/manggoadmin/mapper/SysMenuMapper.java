@@ -2,12 +2,7 @@ package com.mjf.mango.manggoadmin.mapper;
 
 import com.mjf.mango.manggoadmin.common.CommonMapper;
 import com.mjf.mango.manggoadmin.entity.SysMenu;
-import com.mjf.mango.manggoadmin.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * @ProjectName: mango
@@ -20,7 +15,5 @@ import java.util.Set;
 public interface SysMenuMapper extends CommonMapper<SysMenu> {
 
     void deleteMenuIdsByRoleId(@Param("roleId") Long roleId);
-
-    void insertRoleMenus();
 
 }
